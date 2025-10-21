@@ -25,6 +25,11 @@ from app.schemas.enrollment import (
     CourseInfo, EnrollmentWithCourse, StudentInfo
 )
 
+from app.schemas.review import (
+    ReviewCreate, ReviewUpdate, ReviewResponse, CheckReviewResponse,
+    ReviewStats, ReviewWithUser, CourseWithReviews
+)
+
 __all__ = [
     # User schemas
     "UserBase",
@@ -68,4 +73,12 @@ __all__ = [
     "CourseInfo",
     "EnrollmentWithCourse",
     "StudentInfo"
+    # Review schemas
+    "ReviewCreate",
+    "ReviewUpdate",
+    "ReviewResponse",
+    "CheckReviewResponse",
+    "ReviewStats",
+    "ReviewWithUser",
+    "CourseWithReviews"
 ]

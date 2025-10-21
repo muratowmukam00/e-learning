@@ -5,6 +5,7 @@ from app.api.course import router as courses_router
 from app.api.category import router as categories_router
 from app.api.lessons import router as lessons_router
 from app.api.enrollments import router as enrollments_router
+from app.api.reviews import router as reviews_router
 from app.database import engine, Base
 from app.config import settings
 
@@ -33,9 +34,9 @@ app.include_router(categories_router, prefix="/api", tags=["Categories"])
 
 app.include_router(lessons_router, prefix="/api", tags=["Lessons"])
 
-
 app.include_router(enrollments_router, prefix="/api", tags=["Enrollments"])
 
+app.include_router(reviews_router, prefix="/api", tags=["Reviews"])
 @app.get("/")
 async def root():
     return {
