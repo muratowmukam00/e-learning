@@ -49,6 +49,7 @@ class User(Base):
     # Отзывы
     reviews = relationship("Review", back_populates="student")
     comments = relationship("Comment", back_populates="user")
+    quiz_attempts = relationship("QuizAttempt", back_populates="student")
 
     def __repr__(self):
         return f"<User {self.email} ({self.role})>"

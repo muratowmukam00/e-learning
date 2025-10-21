@@ -6,6 +6,7 @@ from app.models.enrollment import Enrollment, EnrollmentStatus
 from app.models.progress import Progress
 from app.models.review import Review
 from app.models.comment import Comment
+from app.models.quiz import Quiz, QuizQuestion, QuizAnswer, QuizAttempt, QuizType
 
 __all__ = [
     "User",
@@ -21,5 +22,9 @@ __all__ = [
     "Progress",
     "Review",
     "Comment",
-    ""
+    "Quiz",
+    "QuizQuestion",
+    "QuizAnswer",
+    "QuizAttempt",
+    "QuizType",
 ]
