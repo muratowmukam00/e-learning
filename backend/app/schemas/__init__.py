@@ -15,6 +15,10 @@ from app.schemas.category import (
     CategoryCreate, CategoryUpdate, CategoryResponse, CategoryShort
 )
 
+from app.schemas.lessons import (
+    LessonCreate, LessonUpdate, LessonResponse,LessonListResponse
+)
+
 __all__ = [
     # User schemas
     "UserBase",
@@ -43,5 +47,9 @@ __all__ = [
     "CategoryUpdate",
     "CategoryResponse",
     "CategoryShort",
-
+    # Lesson schemas
+    "LessonCreate",
+    "LessonUpdate",
+    "LessonResponse",
+    "LessonListResponse"
 ]

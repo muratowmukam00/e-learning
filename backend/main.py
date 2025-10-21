@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.auth import router as auth_router
 from app.api.course import router as courses_router
 from app.api.category import router as categories_router
+from app.api.lessons import router as lessons_router
 from app.database import engine, Base
 from app.config import settings
 
@@ -28,6 +29,8 @@ app.add_middleware(
 app.include_router(auth_router, prefix="/api", tags=["Authentication"])
 app.include_router(courses_router, prefix="/api", tags=["Courses"])
 app.include_router(categories_router, prefix="/api", tags=["Categories"])
+
+app.include_router(lessons_router, prefix="/api", tags=["Lessons"])
 
 
 @app.get("/")
