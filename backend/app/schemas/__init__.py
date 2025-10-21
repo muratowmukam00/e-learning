@@ -7,7 +7,16 @@ from app.schemas.auth import (
     AuthResponse, TokenPayload
 )
 
+from app.schemas.course import (
+    CourseCreate, CourseUpdate, CourseResponse,
+    CourseList, CourseShort, CourseFilter, CoursePublish
+)
+from app.schemas.category import (
+    CategoryCreate, CategoryUpdate, CategoryResponse, CategoryShort
+)
+
 __all__ = [
+    # User schemas
     "UserBase",
     "UserCreate",
     "UserUpdate",
@@ -16,8 +25,23 @@ __all__ = [
     "UserShort",
     "UserList",
     "LoginRequest",
+    # Auth schemas
     "Token",
     "RefreshTokenRequest",
     "AuthResponse",
     "TokenPayload",
+    # Course schemas
+    "CourseCreate",
+    "CourseUpdate",
+    "CourseResponse",
+    "CourseList",
+    "CourseShort",
+    "CourseFilter",
+    "CoursePublish",
+    # Category schemas
+    "CategoryCreate",
+    "CategoryUpdate",
+    "CategoryResponse",
+    "CategoryShort",
+
 ]

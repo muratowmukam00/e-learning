@@ -1,65 +1,50 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
+from app.api.auth import router as auth_router
+from app.api.course import router as courses_router
+from app.api.category import router as categories_router
+from app.database import engine, Base
 from app.config import settings
-from app.database import Base, engine
 
-# Импорты моделей для создания таблиц
-from app.models import (
-    User, Course, Category, Lesson,
-    Enrollment, Progress, Review
-)
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup: создание таблиц БД
-    print("🚀 Starting up...")
-    # Раскомментируйте когда будете готовы создать таблицы
-    # Base.metadata.create_all(bind=engine)
-    yield
-    # Shutdown
-    print("🛑 Shutting down...")
+# Создание таблиц в БД
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Платформа онлайн-курсов по предпринимательству",
-    description="API для интерактивной платформы обучения",
+    title=settings.APP_NAME,
     version="1.0.0",
-    lifespan=lifespan
+    description="API для платформы онлайн-курсов по предпринимательству"
 )
 
 # CORS настройки
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins,
+    allow_origins=settings.BACKEND_CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Подключение роутеров
+app.include_router(auth_router, prefix="/api", tags=["Authentication"])
+app.include_router(courses_router, prefix="/api", tags=["Courses"])
+app.include_router(categories_router, prefix="/api", tags=["Categories"])
+
+
 @app.get("/")
 async def root():
     return {
-        "message": "Добро пожаловать в API платформы онлайн-курсов!",
+        "message": "Welcome to Entrepreneurship Learning Platform API",
         "version": "1.0.0",
         "docs": "/docs",
         "redoc": "/redoc"
     }
 
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
 
-# Подключение роутеров
-from app.api import auth
-
-app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
-
-# Будет добавлено позже:
-# from app.api import users, courses, lessons
-# app.include_router(users.router, prefix="/api/users", tags=["Users"])
-# app.include_router(courses.router, prefix="/api/courses", tags=["Courses"])
-# app.include_router(lessons.router, prefix="/api/lessons", tags=["Lessons"])
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
