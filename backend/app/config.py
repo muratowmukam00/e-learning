@@ -20,12 +20,7 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
     # CORS
-    BACKEND_CORS_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173"
-    ]
+    BACKEND_CORS_ORIGINS: str = "http://localhost:3000,http://localhost:5173"
 
     # Email
     SMTP_HOST: str = ""
@@ -37,7 +32,7 @@ class Settings(BaseSettings):
 
     # File Upload
     MAX_FILE_SIZE: int = 10485760  # 10MB
-    ALLOWED_EXTENSIONS: List[str] = ["pdf", "jpg", "jpeg", "png", "mp4"]
+    ALLOWED_EXTENSIONS: str = "pdf,jpg,jpeg,png,mp4"
 
     # Pagination
     DEFAULT_PAGE_SIZE: int = 10
@@ -46,6 +41,16 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = True
+
+    @property
+    def cors_origins(self) -> List[str]:
+        """Преобразует строку CORS origins в список"""
+        return [origin.strip() for origin in self.BACKEND_CORS_ORIGINS.split(",")]
+
+    @property
+    def allowed_file_extensions(self) -> List[str]:
+        """Преобразует строку расширений в список"""
+        return [ext.strip() for ext in self.ALLOWED_EXTENSIONS.split(",")]
 
 
 # Создаем глобальный экземпляр настроек
