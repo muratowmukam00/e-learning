@@ -30,6 +30,11 @@ from app.schemas.review import (
     ReviewStats, ReviewWithUser, CourseWithReviews
 )
 
+from app.schemas.progress import (
+    ProgressCreate, ProgressUpdate, ProgressResponse,
+    LessonProgressResponse, CourseProgressSummary, StudentStatistics
+)
+
 __all__ = [
     # User schemas
     "UserBase",
@@ -81,4 +86,11 @@ __all__ = [
     "ReviewStats",
     "ReviewWithUser",
     "CourseWithReviews"
+    # Progress schemas
+    "ProgressCreate",
+    "ProgressUpdate",
+    "ProgressResponse",
+    "LessonProgressResponse",
+    "CourseProgressSummary",
+    "StudentStatistics"
 ]

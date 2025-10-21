@@ -5,6 +5,7 @@ from app.models.lesson import Lesson, LessonType
 from app.models.enrollment import Enrollment, EnrollmentStatus
 from app.models.progress import Progress
 from app.models.review import Review
+from app.models.comment import Comment
 
 __all__ = [
     "User",
@@ -19,4 +20,6 @@ __all__ = [
     "EnrollmentStatus",
     "Progress",
     "Review",
+    "Comment",
+    ""
 ]

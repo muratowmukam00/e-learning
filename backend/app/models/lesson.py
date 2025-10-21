@@ -51,6 +51,8 @@ class Lesson(Base):
     # Relationships
     course = relationship("Course", back_populates="lessons")
     progress_records = relationship("Progress", back_populates="lesson")
+    comments = relationship("Comment", back_populates="lesson", cascade="all, delete-orphan")
+
 
     def __repr__(self):
         return f"<Lesson {self.title} (Course: {self.course_id})>"

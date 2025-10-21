@@ -6,6 +6,8 @@ from app.api.category import router as categories_router
 from app.api.lessons import router as lessons_router
 from app.api.enrollments import router as enrollments_router
 from app.api.reviews import router as reviews_router
+from app.api.progress import router as progress_router
+from app.api.comments import router as comments_router
 from app.database import engine, Base
 from app.config import settings
 
@@ -37,6 +39,11 @@ app.include_router(lessons_router, prefix="/api", tags=["Lessons"])
 app.include_router(enrollments_router, prefix="/api", tags=["Enrollments"])
 
 app.include_router(reviews_router, prefix="/api", tags=["Reviews"])
+
+app.include_router(progress_router, prefix="/api", tags=["Progress"])
+
+app.include_router(comments_router, prefix="/api", tags=["Comments"])
+
 @app.get("/")
 async def root():
     return {
