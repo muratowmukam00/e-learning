@@ -19,6 +19,12 @@ from app.schemas.lessons import (
     LessonCreate, LessonUpdate, LessonResponse,LessonListResponse
 )
 
+from app.schemas.enrollment import (
+    EnrollmentCreate, EnrollmentResponse, StudentListResponse,
+    CheckEnrollmentResponse, EnrollmentStats, EnrollmentDetail,
+    CourseInfo, EnrollmentWithCourse, StudentInfo
+)
+
 __all__ = [
     # User schemas
     "UserBase",
@@ -51,5 +57,15 @@ __all__ = [
     "LessonCreate",
     "LessonUpdate",
     "LessonResponse",
-    "LessonListResponse"
+    "LessonListResponse",
+    # Enrollment schemas
+    "EnrollmentCreate",
+    "EnrollmentResponse",
+    "StudentListResponse",
+    "CheckEnrollmentResponse",
+    "EnrollmentStats",
+    "EnrollmentDetail",
+    "CourseInfo",
+    "EnrollmentWithCourse",
+    "StudentInfo"
 ]
