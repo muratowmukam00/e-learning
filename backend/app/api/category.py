@@ -9,9 +9,9 @@ from app.models.category import Category
 from app.models.course import Course
 from app.schemas.category import (
     CategoryCreate, CategoryUpdate,
-    CategoryResponse, CategoryShort
+    CategoryResponse
 )
-from app.utils.dependencies import get_current_user, require_role
+from app.utils.dependencies import require_role
 
 router = APIRouter(prefix="/categories", tags=["Categories"])
 
@@ -117,13 +117,13 @@ async def create_category(
             detail="Category with this slug already exists"
         )
 
-    new_category = Category(**category_data.model_dump())
+    new_category = Category(**category_data.model_dump(exclude_unset=True))
 
     db.add(new_category)
     db.commit()
     db.refresh(new_category)
 
-    return CategoryResponse(**new_category.__dict__, courses_count=0)
+    return new_category
 
 
 @router.put("/{category_id}", response_model=CategoryResponse)
