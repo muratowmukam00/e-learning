@@ -1,6 +1,6 @@
 from pydantic_settings import BaseSettings
+from pydantic import ConfigDict
 from typing import List
-import os
 
 
 class Settings(BaseSettings):
@@ -38,9 +38,12 @@ class Settings(BaseSettings):
     DEFAULT_PAGE_SIZE: int = 10
     MAX_PAGE_SIZE: int = 100
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
+    # ✅ Новый стиль конфигурации
+    model_config = ConfigDict(
+        env_file=".env",
+        case_sensitive=True,
+        extra="ignore",
+    )
 
     @property
     def cors_origins(self) -> List[str]:
@@ -53,5 +56,5 @@ class Settings(BaseSettings):
         return [ext.strip() for ext in self.ALLOWED_EXTENSIONS.split(",")]
 
 
-# Создаем глобальный экземпляр настроек
+# Глобальный экземпляр
 settings = Settings()

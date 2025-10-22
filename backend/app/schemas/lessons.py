@@ -1,5 +1,5 @@
 from typing import Optional, List
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, field_validator
 from datetime import datetime
 from app.models.lesson import LessonType
 
@@ -22,17 +22,17 @@ class LessonCreate(LessonBase):
     course_id: int = Field(..., gt=0, description="ID курса")
     order: Optional[int] = Field(None, ge=1, description="Порядковый номер урока")
 
-    @validator('video_url')
-    def validate_video_url(cls, v, values):
+    @field_validator('video_url')
+    def validate_video_url(cls, v, info):
         """Проверка URL видео для VIDEO типа"""
-        if values.get('lesson_type') == LessonType.VIDEO and not v:
+        if info.data.get('lesson_type') == LessonType.VIDEO and not v:
             raise ValueError('video_url обязателен для видео-уроков')
         return v
 
-    @validator('content')
-    def validate_content(cls, v, values):
+    @field_validator('content')
+    def validate_content(cls, v, info):
         """Проверка контента для TEXT типа"""
-        if values.get('lesson_type') == LessonType.TEXT and not v:
+        if info.data.get('lesson_type') == LessonType.TEXT and not v:
             raise ValueError('content обязателен для текстовых уроков')
         return v
 

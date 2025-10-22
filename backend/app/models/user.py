@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import enum
@@ -32,8 +32,8 @@ class User(Base):
     is_verified = Column(Boolean, default=False)
 
     # Временные метки
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     last_login = Column(DateTime, nullable=True)
 
     # Relationships

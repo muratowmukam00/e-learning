@@ -77,7 +77,6 @@ __all__ = [
     "EnrollmentDetail",
     "CourseInfo",
     "EnrollmentWithCourse",
-    "StudentInfo"
     # Review schemas
     "ReviewCreate",
     "ReviewUpdate",
@@ -85,7 +84,6 @@ __all__ = [
     "CheckReviewResponse",
     "ReviewStats",
     "ReviewWithUser",
-    "CourseWithReviews"
     # Progress schemas
     "ProgressCreate",
     "ProgressUpdate",

@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy import Column, Integer, String, Text, DateTime, func
 from sqlalchemy.orm import relationship
-from datetime import datetime
 from app.database import Base
 
 class Category(Base):
@@ -16,9 +15,8 @@ class Category(Base):
     order = Column(Integer, default=0)
 
     # Временные метки
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     # Relationships
     courses = relationship("Course", back_populates="category")
 

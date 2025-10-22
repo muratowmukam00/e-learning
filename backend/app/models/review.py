@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, CheckConstraint
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, CheckConstraint, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.database import Base
@@ -23,8 +23,8 @@ class Review(Base):
     comment = Column(Text, nullable=True)
 
     # Временные метки
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
     # Relationships
     student = relationship("User", back_populates="reviews")

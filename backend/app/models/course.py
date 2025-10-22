@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Float, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Float, ForeignKey, Enum, func
 from sqlalchemy.orm import relationship
-from datetime import datetime
 import enum
 from app.database import Base
 
@@ -66,8 +65,8 @@ class Course(Base):
     total_lessons = Column(Integer, default=0)
 
     # Временные метки
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     published_at = Column(DateTime, nullable=True)
 
     # Relationships

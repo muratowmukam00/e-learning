@@ -10,6 +10,7 @@ from app.api.progress import router as progress_router
 from app.api.comments import router as comments_router
 from app.api.quiz import router as quiz_router
 from app.api.users import router as users_router
+from app.api.admin import router as admin_router
 from app.database import engine, Base
 from app.config import settings
 
@@ -50,6 +51,8 @@ app.include_router(quiz_router, prefix="/api", tags=["Quiz"])
 
 app.include_router(users_router, prefix="/api", tags=["Users"])
 
+app.include_router(admin_router, prefix="/api/admin", tags=["Admin"])
+
 @app.get("/")
 async def root():
     return {
@@ -67,4 +70,4 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

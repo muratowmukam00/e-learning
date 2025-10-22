@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, DateTime, Float, ForeignKey, Boolean, Enum, String
+from sqlalchemy import Column, Integer, DateTime, Float, ForeignKey, Boolean, Enum, String, func
 from sqlalchemy.orm import relationship
-from datetime import datetime
 import enum
 from app.database import Base
 
@@ -38,9 +37,9 @@ class Enrollment(Base):
     certificate_issued_at = Column(DateTime, nullable=True)
 
     # Временные метки
-    enrolled_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    completed_at = Column(DateTime, nullable=True)
-    last_accessed_at = Column(DateTime, default=datetime.utcnow)
+    enrolled_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    completed_at = Column(DateTime(timezone=True), nullable=True)
+    last_accessed_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     # Relationships
     student = relationship("User", back_populates="enrollments")

@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Boolean, func
 from sqlalchemy.orm import relationship
-from datetime import datetime
 from app.database import Base
 
 
@@ -26,8 +25,8 @@ class Comment(Base):
     is_deleted = Column(Boolean, default=False)
 
     # Временные метки
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
     # Relationships
     user = relationship("User", back_populates="comments")

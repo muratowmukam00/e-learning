@@ -1,5 +1,5 @@
 from typing import Optional, Dict
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, field_validator
 from datetime import datetime
 
 
@@ -14,9 +14,8 @@ class ReviewCreate(ReviewBase):
     """Схема для создания отзыва"""
     course_id: int = Field(..., gt=0, description="ID курса")
 
-    @validator('comment')
+    @field_validator('comment')
     def comment_not_empty_if_provided(cls, v):
-        """Если комментарий указан, он не должен быть пустым"""
         if v is not None and len(v.strip()) == 0:
             raise ValueError('Комментарий не может быть пустым')
         return v
@@ -28,7 +27,7 @@ class ReviewUpdate(BaseModel):
     title: Optional[str] = Field(None, max_length=200)
     comment: Optional[str] = None
 
-    @validator('comment')
+    @field_validator('comment')
     def comment_not_empty_if_provided(cls, v):
         if v is not None and len(v.strip()) == 0:
             raise ValueError('Комментарий не может быть пустым')

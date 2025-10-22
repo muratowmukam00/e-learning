@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, DateTime, Boolean, ForeignKey, Float
+from sqlalchemy import Column, Integer, DateTime, Boolean, ForeignKey, Float, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.database import Base
@@ -21,9 +21,9 @@ class Progress(Base):
     time_spent = Column(Integer, default=0)  # Время в секундах
 
     # Временные метки
-    started_at = Column(DateTime, default=datetime.utcnow)
-    completed_at = Column(DateTime, nullable=True)
-    last_accessed_at = Column(DateTime, default=datetime.utcnow)
+    started_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    completed_at = Column(DateTime(timezone=True), nullable=True)
+    last_accessed_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     # Relationships
     student = relationship("User", back_populates="progress_records")
