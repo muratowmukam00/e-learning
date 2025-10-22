@@ -79,25 +79,21 @@ def get_current_active_user(
     return current_user
 
 
-def require_role(required_role: UserRole):
+def require_role(required_roles: list[UserRole]):
     """
     Dependency для проверки роли пользователя
-
-    Usage:
-        @app.get("/admin")
-        def admin_route(user: User = Depends(require_role(UserRole.ADMIN))):
-            ...
     """
 
     def role_checker(current_user: User = Depends(get_current_user)) -> User:
-        if current_user.role != required_role and current_user.role != UserRole.ADMIN:
+        if current_user.role not in required_roles and current_user.role != UserRole.ADMIN:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Требуется роль: {required_role}"
+                detail=f"Требуется роль: {required_roles}"
             )
         return current_user
 
     return role_checker
+
 
 
 def require_instructor(current_user: User = Depends(get_current_user)) -> User:
