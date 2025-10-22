@@ -37,12 +37,16 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    user_id: Optional[int] = payload.get("sub")
+    user_id = payload.get("sub")
     if user_id is None:
+        raise HTTPException(...)
+
+    try:
+        user_id = int(user_id)
+    except ValueError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Невалидный payload токена",
-            headers={"WWW-Authenticate": "Bearer"},
+            detail="Некорректный ID пользователя в токене"
         )
 
     user = db.query(User).filter(User.id == user_id).first()

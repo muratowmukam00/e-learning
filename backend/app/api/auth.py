@@ -56,6 +56,11 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
         data={"sub": new_user.id, "email": new_user.email}
     )
 
+    # Сохраняем refresh_token в БД
+    new_user.refresh_token = refresh_token
+    db.commit()
+    db.refresh(new_user)
+
     return {
         "user": {
             "id": new_user.id,
@@ -110,6 +115,11 @@ async def login(credentials: LoginRequest, db: Session = Depends(get_db)):
         data={"sub": user.id, "email": user.email}
     )
 
+    # Сохраняем refresh_token в БД
+    user.refresh_token = refresh_token
+    db.commit()
+    db.refresh(user)
+
     return {
         "user": {
             "id": user.id,
@@ -128,12 +138,13 @@ async def login(credentials: LoginRequest, db: Session = Depends(get_db)):
 
 @router.post("/refresh", response_model=Token)
 async def refresh_token(
-        refresh_data: RefreshTokenRequest,
-        db: Session = Depends(get_db)
+    refresh_data: RefreshTokenRequest,
+    db: Session = Depends(get_db)
 ):
     """
     Обновление access токена с помощью refresh токена
     """
+    # Декодируем токен
     payload = decode_token(refresh_data.refresh_token)
     if payload is None:
         raise HTTPException(
@@ -148,12 +159,28 @@ async def refresh_token(
             detail="Неверный тип токена"
         )
 
+    # Получаем пользователя
     user_id = payload.get("sub")
+    try:
+        user_id = int(user_id)
+    except (TypeError, ValueError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Некорректный ID пользователя в токене"
+        )
+
     user = db.query(User).filter(User.id == user_id).first()
     if not user or not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Пользователь не найден или деактивирован"
+        )
+
+    # Проверяем, что refresh_token совпадает с хранимым в БД
+    if user.refresh_token != refresh_data.refresh_token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Refresh токен не совпадает или уже был обновлён"
         )
 
     # Создаем новые токены
@@ -164,11 +191,17 @@ async def refresh_token(
         data={"sub": user.id, "email": user.email}
     )
 
+    # Сохраняем новый refresh_token в БД
+    user.refresh_token = new_refresh_token
+    db.commit()
+    db.refresh(user)
+
     return {
         "access_token": access_token,
         "refresh_token": new_refresh_token,
         "token_type": "bearer"
     }
+
 
 
 @router.get("/me", response_model=UserResponse)
@@ -180,10 +213,13 @@ async def get_current_user_info(current_user: User = Depends(get_current_user)):
 
 
 @router.post("/logout")
-async def logout(current_user: User = Depends(get_current_user)):
+async def logout(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """
     Выход из системы
 
     Note: На клиенте нужно удалить токены из localStorage
     """
+    current_user.refresh_token = None
+    db.commit()
+    db.refresh(current_user)
     return {"message": "Вы успешно вышли из системы"}
