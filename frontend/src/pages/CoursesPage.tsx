@@ -1,3 +1,3 @@
 export default function CoursesPage() {
-    return <h1>Home Page</h1>;
+    return <h1>Course Page</h1>;
 }

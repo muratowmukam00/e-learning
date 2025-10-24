@@ -1,3 +1,3 @@
 export default function InstructorsPage() {
-    return <h1>Home Page</h1>;
+    return <h1>Instructor Page</h1>;
 }
