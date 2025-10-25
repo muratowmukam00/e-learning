@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Business",
+    "slug": "business",
+    "description": "Courses related to business strategies, management, and entrepreneurship.",
+    "icon": "briefcase",
+    "order": 1
+  },
+  {
+    "name": "Marketing",
+    "slug": "marketing",
+    "description": "Learn about digital marketing, social media, and branding.",
+    "icon": "bullhorn",
+    "order": 2
+  },
+  {
+    "name": "Finance",
+    "slug": "finance",
+    "description": "Finance courses including accounting, investment, and budgeting.",
+    "icon": "dollar-sign",
+    "order": 3
+  },
+  {
+    "name": "Technology",
+    "slug": "technology",
+    "description": "Courses on software development, IT, and emerging technologies.",
+    "icon": "cpu",
+    "order": 4
+  },
+  {
+    "name": "Leadership",
+    "slug": "leadership",
+    "description": "Develop leadership skills and team management abilities.",
+    "icon": "user-tie",
+    "order": 5
+  },
+  {
+    "name": "Personal Development",
+    "slug": "personal-development",
+    "description": "Courses to improve soft skills, productivity, and personal growth.",
+    "icon": "lightbulb",
+    "order": 6
+  }
+]

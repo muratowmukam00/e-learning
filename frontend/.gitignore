@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -22,3 +23,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+=======
+.DS_Store
+node_modules
+>>>>>>> 8ec01fd (fixed index.html & deleted front & then created again without tailwindcss)
