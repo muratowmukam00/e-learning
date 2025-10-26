@@ -14,7 +14,7 @@ from app.utils.security import (
 )
 from app.utils.dependencies import get_current_user
 
-router = APIRouter()
+router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
 @router.post("/register", response_model=AuthResponse, status_code=status.HTTP_201_CREATED)
